@@ -1,0 +1,37 @@
+# cat=local; type=boolean; label=Enable local configuration:Check to enabled the following configurations.
+localConfigEnable = 0
+
+# cat=local; type=boolean; label=Include configuration file:Check to enable the inclusion of the configuration file.
+localIncludeEnable = 0
+
+# cat=local; type=string; label=Configuration file:Define the configuration file relative to PATH_site to include.
+localIncludeFileName = ../private/Settings.php
+
+
+# cat=application context; type=boolean; label=Enable application context configuration:Check to enabled the following configurations.
+contextConfigEnable = 0
+
+# cat=application context; type=boolean; label=Include application context dependent configuration:Check to enable the inclusion of the application context configuration file (e.g. Testing.php or Production_StagingSystem.php)
+contextIncludeEnable = 0
+
+# cat=application context; type=string; label=Configuration path:Define the path containing the configuration files relative to PATH_site to include.
+contextIncludePath = ../private/
+
+# cat=application context; type=options[Never=,Not for Production=0,Always=1]; label=Extend Site Name:Select the mode to extend the site name based on the application context.
+contextExtendSiteName = 
+
+# cat=application context; type=options[Never=,Not for Production=0,Always=1]; label=Extend Database:Select the mode to extend the database based on the application context.
+contextExtendDatabase = 
+
+
+# cat=cli mode; type=boolean; label=Enable CLI configuration:Check to enabled the following configurations.
+cliConfigEnable = 0
+
+# cat=cli mode; type=boolean; label=Include configuration file:Check to enable the inclusion of the configuration file.
+cliIncludeEnable = 0
+
+# cat=cli mode; type=string; label=Configuration file:Define the configuration file relative to PATH_site to include.
+cliIncludeFileName = ../private/CliSettings.php
+
+# cat=cli mode; type=boolean; label=Reset CLI caching:Check to reset CLI caching to "database cache backend".
+cliResetCaching = 0
