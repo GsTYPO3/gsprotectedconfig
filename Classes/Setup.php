@@ -1,11 +1,25 @@
 <?php
 
-/**
- * @license GPLv3, http://www.gnu.org/copyleft/gpl.html
- * @copyright Aimeos (aimeos.org), 2015
- * @package TYPO3_Aimeos
+/*
+ * This file is part of the GS Proteced Config TYPO3 Extension.
+ *
+ * Copyright (C) 2017 by Gilbertsoft (gilbertsoft.org)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * For the full license information, please read the LICENSE file that
+ * was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
  */
-
 
 namespace Gilbertsoft\ProtectedConfig;
 
@@ -15,9 +29,7 @@ use \TYPO3\CMS\Backend\Utility\BackendUtility;
 
 
 /**
- * Aimeos distribution setup class.
- *
- * @package TYPO3_Aimeos
+ * GS Proteced Config setup class.
  */
 class Setup
 {
@@ -54,7 +66,9 @@ class Setup
 
 		if (!$includeFound) {
 			$additionalConfigurationLines[] = '// Include AdditionalConfiguration.php from extension gsprotectedconfig';
-			$additionalConfigurationLines[] = "require_once('ext/gsprotectedconfig/Configuration/AdditionalConfiguration.php');";
+			$additionalConfigurationLines[] = "if (@is_file('ext/gsprotectedconfig/Configuration/AdditionalConfiguration.php')) {";
+			$additionalConfigurationLines[] = "	require('ext/gsprotectedconfig/Configuration/AdditionalConfiguration.php');";
+			$additionalConfigurationLines[] = "}";
 
 			$configurationManager->writeAdditionalConfiguration($additionalConfigurationLines);
 		}

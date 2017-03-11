@@ -1,0 +1,39 @@
+{
+    "modules": [],
+    "properties": {
+        "backendModules": [],
+        "description": "GS Protected Config allows you to import configurations from outside the web directory or override it dependent from application context or CLI mode. Configuration could simply be adapted by the Extension Manager.",
+        "emConf": {
+            "category": "misc",
+            "custom_category": "",
+            "dependsOn": "typo3 => 6.2.9-8.99.99\n",
+            "disableLocalization": true,
+            "disableVersioning": true,
+            "skipGenerateDocumentationTemplate": true,
+            "sourceLanguage": "en",
+            "state": "stable",
+            "targetVersion": "7.6.0-7.6.99",
+            "version": "0.0.2"
+        },
+        "extensionKey": "gsprotectedconfig",
+        "name": "GS Protected Config",
+        "originalExtensionKey": "gsprotectedconfig",
+        "originalVendorName": "Gilbertsoft",
+        "persons": [
+            {
+                "company": "Gilbertsoft",
+                "email": "typo3@gilbertsoft.org",
+                "name": "Simon Gilli",
+                "role": "Developer"
+            }
+        ],
+        "plugins": [],
+        "vendorName": "Gilbertsoft"
+    },
+    "wires": [],
+    "log": {
+        "last_modified": "2017-03-11 12:59",
+        "extension_builder_version": "7.6.0",
+        "be_user": "Simon Gilli (1)"
+    }
+}
