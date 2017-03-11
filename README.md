@@ -5,14 +5,12 @@
 GS Proteced Config TYPO3 extension
 ==================================
 
-GS Protected Config allows to import configuration from outside the web directory.
+GS Protected Config allows you to import configurations from outside the web directory or override it dependent from application context or CLI mode. Configuration could simply be adapted by the Extension Manager.
 
 ## Screen shots
 
-### Generated HTML source
+### Extension Manager Configuration
 
-![HTML source](https://github.com/gilbertsoft/gsfavicon/blob/master/Documentation/Images/HtmlSource.png)
-
-### Constant Editor
-
-![Constant Editor](https://github.com/gilbertsoft/gsfavicon/blob/master/Documentation/Images/UserManual/ConstantEditor.png)
+![HTML source](https://github.com/gilbertsoft/typo3-gsprotectedconfig/blob/master/Documentation/Images/AdministratorManual/ExtensionManagerLocal.png)
+![HTML source](https://github.com/gilbertsoft/typo3-gsprotectedconfig/blob/master/Documentation/Images/AdministratorManual/ExtensionManagerContext.png)
+![HTML source](https://github.com/gilbertsoft/typo3-gsprotectedconfig/blob/master/Documentation/Images/AdministratorManual/ExtensionManagerCli.png)
