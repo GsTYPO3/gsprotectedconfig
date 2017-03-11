@@ -10,25 +10,23 @@
  * "version" and "dependencies" must not be touched!
  ***************************************************************/
 
-$EM_CONF[$_EXTKEY] = array(
-	'title' => 'GS Protected Config',
-	'description' => 'GS Protected Config allows you to import configurations from outside the web directory or override it dependent from application context or CLI mode. Configuration could simply be adapted by the Extension Manager.',
-	'category' => 'misc',
-	'author' => 'Simon Gilli',
-	'author_email' => 'typo3@gilbertsoft.org',
-	'state' => 'stable',
-	'internal' => '',
-	'uploadfolder' => '0',
-	'createDirs' => '',
-	'clearCacheOnLoad' => 0,
-	'version' => '0.0.2',
-	'constraints' => array(
-		'depends' => array(
-			'typo3' => '6.2.9-8.99.99',
-		),
-		'conflicts' => array(
-		),
-		'suggests' => array(
-		),
-	),
-);
+$EM_CONF[$_EXTKEY] = [
+    'title' => 'GS Protected Config',
+    'description' => 'GS Protected Config allows you to import configurations from outside the web directory or override it dependent from application context or CLI mode. Configuration could simply be adapted by the Extension Manager.',
+    'category' => 'misc',
+    'author' => 'Simon Gilli',
+    'author_email' => 'typo3@gilbertsoft.org',
+    'state' => 'stable',
+    'internal' => '',
+    'uploadfolder' => '0',
+    'createDirs' => '',
+    'clearCacheOnLoad' => 0,
+    'version' => '0.0.3',
+    'constraints' => [
+        'depends' => [
+            'typo3' => '6.2.9-8.99.99',
+        ],
+        'conflicts' => [],
+        'suggests' => [],
+    ],
+];

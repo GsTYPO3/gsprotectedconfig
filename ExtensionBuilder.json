@@ -13,7 +13,7 @@
             "sourceLanguage": "en",
             "state": "stable",
             "targetVersion": "7.6.0-7.6.99",
-            "version": "0.0.2"
+            "version": "0.0.3"
         },
         "extensionKey": "gsprotectedconfig",
         "name": "GS Protected Config",
@@ -32,8 +32,8 @@
     },
     "wires": [],
     "log": {
-        "last_modified": "2017-03-11 12:59",
-        "extension_builder_version": "7.6.0",
+        "last_modified": "2017-03-11 07:49",
+        "extension_builder_version": "7.6.16",
         "be_user": "Simon Gilli (1)"
     }
 }
