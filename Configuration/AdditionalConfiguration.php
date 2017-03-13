@@ -1,81 +1,85 @@
 <?php
 
-// Get the configuration
-$gsEXTCONF = \Gilbertsoft\ProtectedConfig\Utility::getSanitizedExtConf();
-
-// Local configuration
-if ($gsEXTCONF['localConfigEnable'] == 1)
+// Check the presence of the required class to prevent errors
+if (class_exists('Gilbertsoft\ProtectedConfig\Utility'))
 {
-	// Include configuration file
-	if ($gsEXTCONF['localIncludeEnable'] == 1)
-	{
-		$settingsFile = PATH_site . $gsEXTCONF['localIncludeFileName'];
+	// Get the configuration
+	$gsEXTCONF = \Gilbertsoft\ProtectedConfig\Utility::getSanitizedExtConf($_EXTKEY);
 
-		if (file_exists($settingsFile)) {
-			require_once($settingsFile);
+	// Local configuration
+	if ($gsEXTCONF['localConfigEnable'] == 1)
+	{
+		// Include configuration file
+		if ($gsEXTCONF['localIncludeEnable'] == 1)
+		{
+			$settingsFile = PATH_site . $gsEXTCONF['localIncludeFileName'];
+
+			if (file_exists($settingsFile)) {
+				require_once($settingsFile);
+			}
+
+			unset($settingsFile);
+		}
+	}
+
+	// Application context configuration
+	if ($gsEXTCONF['contextConfigEnable'] == 1)
+	{
+		$currentApplicationContext = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
+
+		// Update site name
+		if (((($gsEXTCONF['contextExtendSiteName'] & 1) === 1) && $currentApplicationContext->isDevelopment()) ||
+			((($gsEXTCONF['contextExtendSiteName'] & 2) === 2) && $currentApplicationContext->isTesting()) ||
+			((($gsEXTCONF['contextExtendSiteName'] & 4) === 4) && $currentApplicationContext->isProduction()))
+		{
+			// Update site name based on context
+			$GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'] .= ' (' . (string)$currentApplicationContext . ')';
 		}
 
-		unset($settingsFile);
-	}
-}
-
-// Application context configuration
-if ($gsEXTCONF['contextConfigEnable'] == 1)
-{
-	$currentApplicationContext = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
-
-	// Update site name
-	if (($gsEXTCONF['contextExtendSiteName'] == 1) || (
-		($gsEXTCONF['contextExtendSiteName'] == 0) && (!$currentApplicationContext->isProduction())
-	   ))
-	{
-		// Update site name based on context
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'] .= ' (' . (string)$currentApplicationContext . ')';
-	}
-
-	// Update database
-	if (($gsEXTCONF['contextExtendDatabase'] == 1) || (
-		($gsEXTCONF['contextExtendDatabase'] == 0) && (!$currentApplicationContext->isProduction())
-	   ))
-	{
-		// Update database based on context
-		$GLOBALS['TYPO3_CONF_VARS']['DB']['database'] .= '_' . \TYPO3\CMS\Core\Utility\GeneralUtility::camelCaseToLowerCaseUnderscored((string)$currentApplicationContext);
-	}
-
-	// Include configuration file
-	if ($gsEXTCONF['contextIncludeEnable'] == 1)
-	{
-		$contextConfigFile = PATH_site . $gsEXTCONF['contextIncludePath'] . \TYPO3\CMS\Core\Utility\GeneralUtility::camelCaseToLowerCaseUnderscored((string)$currentApplicationContext) . '.php';
-
-		if (file_exists($contextConfigFile)) {
-			require_once($contextConfigFile);
+		// Update database
+		if (((($gsEXTCONF['contextExtendDatabase'] & 1) === 1) && $currentApplicationContext->isDevelopment()) ||
+			((($gsEXTCONF['contextExtendDatabase'] & 2) === 2) && $currentApplicationContext->isTesting()) ||
+			((($gsEXTCONF['contextExtendDatabase'] & 4) === 4) && $currentApplicationContext->isProduction()))
+		{
+			// Update database based on context
+			$GLOBALS['TYPO3_CONF_VARS']['DB']['database'] .= '_' . \TYPO3\CMS\Core\Utility\GeneralUtility::camelCaseToLowerCaseUnderscored((string)$currentApplicationContext);
 		}
 
-		unset($contextConfigFile);
-	}
-}
+		// Include configuration file
+		if ($gsEXTCONF['contextIncludeEnable'] == 1)
+		{
+			$contextConfigFile = PATH_site . $gsEXTCONF['contextIncludePath'] . \TYPO3\CMS\Core\Utility\GeneralUtility::camelCaseToLowerCaseUnderscored((string)$currentApplicationContext) . '.php';
 
-// CLI mode configuration
-if ((TYPO3_cliMode === true) && ($gsEXTCONF['cliConfigEnable'] == 1))
-{
-	// Reset caching
-	if ($gsEXTCONF['cliResetCaching'] == 1) {
-		// Change cache config to database backend
-  		$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['extbase_object']['backend'] = \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class;
+			if (file_exists($contextConfigFile)) {
+				require_once($contextConfigFile);
+			}
+
+			unset($contextConfigFile);
+		}
 	}
 
-	// Include configuration file
-	if ($gsEXTCONF['cliIncludeEnable'] == 1)
+	// CLI mode configuration
+	if ((TYPO3_cliMode === true) && ($gsEXTCONF['cliConfigEnable'] == 1))
 	{
-		$settingsFile = PATH_site . $gsEXTCONF['cliIncludeFileName'];
-
-		if (file_exists($settingsFile)) {
-			require_once($settingsFile);
+		// Reset caching
+		if ($gsEXTCONF['cliResetCaching'] == 1) {
+			// Change cache config to database backend
+			$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['extbase_object']['backend'] = \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class;
 		}
 
-		unset($settingsFile);
-	}
-}
+		// Include configuration file
+		if ($gsEXTCONF['cliIncludeEnable'] == 1)
+		{
+			$settingsFile = PATH_site . $gsEXTCONF['cliIncludeFileName'];
 
-// Unset EXTCONF variable
-unset($gsEXTCONF);
+			if (file_exists($settingsFile)) {
+				require_once($settingsFile);
+			}
+
+			unset($settingsFile);
+		}
+	}
+
+	// Unset EXTCONF variable
+	unset($gsEXTCONF);
+}

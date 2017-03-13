@@ -67,9 +67,9 @@ class Utility
 	 * @param string $string String to be converted to lowercase underscore
 	 * @return string lowercase_and_underscored_string
 	 */
-	public static function getSanitizedExtConf()
+	public static function getSanitizedExtConf($extensionKey)
 	{
-		$conf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['gsprotectedconfig']);
+		$conf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extensionKey]);
 
 		self::sanitizeValue($conf, 'localConfigEnable', false);
 		self::sanitizeValue($conf, 'localIncludeEnable', false);
