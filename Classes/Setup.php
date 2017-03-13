@@ -23,9 +23,11 @@
 
 namespace Gilbertsoft\ProtectedConfig;
 
-use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
-use \TYPO3\CMS\Backend\Utility\BackendUtility;
+
+use Gilbertsoft\ProtectedConfig\Utility;
+use TYPO3\CMS\Core\Configuration\ConfigurationManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 
 /**
@@ -38,39 +40,106 @@ class Setup
 	 *
 	 * @param string|null $extname Installed extension name
 	 */
-	public function extensionInstalled($extensionKey = null)
+	public function afterInstall($extensionKey)
 	{
-		if ($extensionKey !== 'gsprotectedconfig') {
-			return;
-		}
-
-		$this->updateAdditionalConfiguration();
+		$this->updateAdditionalConfiguration($extensionKey);
 	}
 
+	/**
+	 * Executes the setup tasks if extension is installed.
+	 *
+	 * @param string|null $extname Installed extension name
+	 */
+	public function afterUninstall($extensionKey)
+	{
+		$this->removeAdditionalConfiguration($extensionKey);
+	}
+
+	/**
+	 * Get the ConfigurationManager
+     *
+     * @return \TYPO3\CMS\Core\Configuration\ConfigurationManager
+	 */
+	protected function getConfigurationManager()
+	{
+		if (!isset($this->configurationManager)) {
+			$this->configurationManager = GeneralUtility::makeInstance(ObjectManager::class)
+				->get(ConfigurationManager::class);
+		}
+		return $this->configurationManager;
+	}
+
+	/**
+	 * Returns the lines from AdditionalConfiguration.php file without own additions
+	 */
+	protected function getCleanAdditionalConfiguration($extensionKey)
+	{
+		$newLines = [];
+
+		// Load content and search for the include
+		if (Utility::readFile($this->getConfigurationManager()->getAdditionalConfigurationFileLocation(), $content) === true)
+		{
+			$currentLines = explode(LF, $content);
+
+			// Delete the php marker line
+			array_shift($currentLines);
+
+			//
+			$startFound = false;
+			$endFound = false;
+
+			foreach ($currentLines as $line)
+			{
+				if (($startFound) && (!$endFound)) {
+					$endFound = (strpos($line, '}') !== false);
+				} elseif ((!$startFound) && (strpos($line, $extensionKey) !== false)) {
+					$startFound = true;
+					$endFound = false;
+				} else {
+					$newLines[] = $line;
+				}
+			}
+		}
+
+		// Remove blank lines at the end
+		$revLines = array_reverse($newLines);
+		$newLines = [];
+		$lineFound = false;
+
+		foreach ($revLines as $line)
+		{
+			if ($lineFound || !empty(trim($line))) {
+				$newLines[] = $line;
+				$lineFound = true;
+			}
+		}
+
+		return array_reverse($newLines);
+	}
 
 	/**
 	 * Creates the AdditionalConfiguration.php file with necessary includes
 	 */
-	protected function updateAdditionalConfiguration()
+	protected function updateAdditionalConfiguration($extensionKey)
 	{
-		$configurationManager = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ConfigurationManager::class);
+		$newLines = $this->getCleanAdditionalConfiguration($extensionKey);
 
-		if (\Gilbertsoft\ProtectedConfig\Utility::readFile($configurationManager->getAdditionalConfigurationFileLocation(), $content) === true) {
-			$includeFound = (strpos($content, 'gsprotectedconfig') !== false);
-			$additionalConfigurationLines = explode(LF, $content);
-			array_shift($additionalConfigurationLines);
-		} else {
-			$includeFound = false;
-			$additionalConfigurationLines = [];
-		}
+		$newLines[] = '// Include AdditionalConfiguration.php from extension ' . $extensionKey;
+		$newLines[] = '$_EXTKEY = \'' . $extensionKey . '\';';
+		$newLines[] = 'if (@is_file(PATH_typo3conf . \'ext/\' . $_EXTKEY . \'/Configuration/AdditionalConfiguration.php\')) {';
+		$newLines[] = '	require PATH_typo3conf . \'ext/\' . $_EXTKEY . \'/Configuration/AdditionalConfiguration.php\';';
+		$newLines[] = '}';
 
-		if (!$includeFound) {
-			$additionalConfigurationLines[] = '// Include AdditionalConfiguration.php from extension gsprotectedconfig';
-			$additionalConfigurationLines[] = "if (@is_file('ext/gsprotectedconfig/Configuration/AdditionalConfiguration.php')) {";
-			$additionalConfigurationLines[] = "	require('ext/gsprotectedconfig/Configuration/AdditionalConfiguration.php');";
-			$additionalConfigurationLines[] = "}";
+		$this->getConfigurationManager()->writeAdditionalConfiguration($newLines);
+	}
 
-			$configurationManager->writeAdditionalConfiguration($additionalConfigurationLines);
-		}
+	/**
+	 * Removes the added lines in the AdditionalConfiguration.php file
+	 */
+	protected function removeAdditionalConfiguration($extensionKey)
+	{
+		$newLines = $this->getCleanAdditionalConfiguration($extensionKey);
+
+		$this->getConfigurationManager()->writeAdditionalConfiguration($newLines);
 	}
 }
