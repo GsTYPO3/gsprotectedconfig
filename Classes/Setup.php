@@ -38,20 +38,28 @@ class Setup
 	/**
 	 * Executes the setup tasks if extension is installed.
 	 *
-	 * @param string|null $extname Installed extension name
+	 * @param string $extensionKey Installed extension name
 	 */
 	public function afterInstall($extensionKey)
 	{
+		if ($extensionKey !== 'gsprotectedconfig') {
+			return;
+		}
+
 		$this->updateAdditionalConfiguration($extensionKey);
 	}
 
 	/**
-	 * Executes the setup tasks if extension is installed.
+	 * Executes the setup tasks if extension is uninstalled.
 	 *
-	 * @param string|null $extname Installed extension name
+	 * @param string $extensionKey Uninstalled extension name
 	 */
 	public function afterUninstall($extensionKey)
 	{
+		if ($extensionKey !== 'gsprotectedconfig') {
+			return;
+		}
+
 		$this->removeAdditionalConfiguration($extensionKey);
 	}
 
