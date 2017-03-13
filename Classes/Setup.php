@@ -132,7 +132,7 @@ class Setup
 	{
 		$newLines = $this->getCleanAdditionalConfiguration($extensionKey);
 
-		$newLines[] = '// Include AdditionalConfiguration.php from extension ' . $extensionKey;
+		$newLines[] = '// Include AdditionalConfiguration.php from extension ' . $extensionKey . ' - added on ' . date(DATE_ATOM) . ' by setup';
 		$newLines[] = '$_EXTKEY = \'' . $extensionKey . '\';';
 		$newLines[] = 'if (@is_file(PATH_typo3conf . \'ext/\' . $_EXTKEY . \'/Configuration/AdditionalConfiguration.php\')) {';
 		$newLines[] = '	require PATH_typo3conf . \'ext/\' . $_EXTKEY . \'/Configuration/AdditionalConfiguration.php\';';
