@@ -6,14 +6,14 @@
         "emConf": {
             "category": "misc",
             "custom_category": "",
-            "dependsOn": "typo3 => 6.2.9-8.99.99\n",
+            "dependsOn": "typo3 => 6.2.9-8.9.99\n",
             "disableLocalization": true,
             "disableVersioning": true,
             "skipGenerateDocumentationTemplate": true,
             "sourceLanguage": "en",
             "state": "stable",
             "targetVersion": "7.6.0-7.6.99",
-            "version": "0.0.3"
+            "version": "1.0.0"
         },
         "extensionKey": "gsprotectedconfig",
         "name": "GS Protected Config",
