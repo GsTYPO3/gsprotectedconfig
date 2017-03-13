@@ -13,7 +13,7 @@
             "sourceLanguage": "en",
             "state": "stable",
             "targetVersion": "7.6.0-7.6.99",
-            "version": "1.0.0"
+            "version": "1.1.0"
         },
         "extensionKey": "gsprotectedconfig",
         "name": "GS Protected Config",
