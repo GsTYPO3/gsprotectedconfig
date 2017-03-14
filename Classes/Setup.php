@@ -38,7 +38,7 @@ class Setup
 	/**
 	 * @var string Extension key to listen on signals
 	 */
-	private $extensionKey = '';
+	protected $extensionKey = '';
 
     /**
      * @var \TYPO3\CMS\Core\Configuration\ConfigurationManager
@@ -54,14 +54,6 @@ class Setup
 	{
 		$this->$extensionKey = $extensionKey;
 	}
-
-    /**
-     * @param \TYPO3\CMS\Core\Configuration\ConfigurationManager $configurationManager
-     */
-    public function injectConfigurationManager(\TYPO3\CMS\Core\Configuration\ConfigurationManager $configurationManager)
-    {
-        $this->configurationManager = $configurationManager;
-    }
 
 	/**
 	 * Executes the setup tasks if extension is installed.
