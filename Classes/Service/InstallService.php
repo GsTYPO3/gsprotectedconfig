@@ -26,6 +26,7 @@ namespace Gilbertsoft\ProtectedConfig\Service;
 
 use Gilbertsoft\ProtectedConfig\Utility;
 use TYPO3\CMS\Core\Configuration\ConfigurationManager;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
