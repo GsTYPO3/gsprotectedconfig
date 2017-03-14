@@ -2,7 +2,7 @@
     "modules": [],
     "properties": {
         "backendModules": [],
-        "description": "GS Protected Config allows you to import configurations from outside the web directory or override it dependent from application context or CLI mode. Configuration could simply be adapted by the Extension Manager.",
+        "description": "GS Protected Config allows you to import configurations from outside the web directory or override it dependent from the application context or TYPO3 mode (FE, BE, CLI, AJAX and INSTALL). Configuration could simply be adapted by the Extension Manager and must be activated first!",
         "emConf": {
             "category": "misc",
             "custom_category": "",
@@ -32,7 +32,7 @@
     },
     "wires": [],
     "log": {
-        "last_modified": "2017-03-14 02:45",
+        "last_modified": "2017-03-14 03:31",
         "extension_builder_version": "7.6.17",
         "be_user": "Simon Gilli (1)"
     }
