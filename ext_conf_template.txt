@@ -24,7 +24,27 @@ contextExtendSiteName = 0
 contextExtendDatabase = 0
 
 
-# cat=cli mode; type=boolean; label=Enable CLI configuration:Check to enabled the following configurations.
+# cat=fe mode; type=boolean; label=Enable FE mode configuration:Check to enabled the following configurations.
+feConfigEnable = 0
+
+# cat=fe mode; type=boolean; label=Include configuration file:Check to enable the inclusion of the configuration file.
+feIncludeEnable = 0
+
+# cat=fe mode; type=string; label=Configuration file:Define the configuration file relative to PATH_site to include.
+feIncludeFileName = ../private/FeSettings.php
+
+
+# cat=be mode; type=boolean; label=Enable BE mode configuration:Check to enabled the following configurations.
+beConfigEnable = 0
+
+# cat=be mode; type=boolean; label=Include configuration file:Check to enable the inclusion of the configuration file.
+beIncludeEnable = 0
+
+# cat=be mode; type=string; label=Configuration file:Define the configuration file relative to PATH_site to include.
+beIncludeFileName = ../private/BeSettings.php
+
+
+# cat=cli mode; type=boolean; label=Enable CLI mode configuration:Check to enabled the following configurations.
 cliConfigEnable = 0
 
 # cat=cli mode; type=boolean; label=Include configuration file:Check to enable the inclusion of the configuration file.
@@ -35,3 +55,23 @@ cliIncludeFileName = ../private/CliSettings.php
 
 # cat=cli mode; type=boolean; label=Reset CLI caching:Check to reset CLI caching to "database cache backend".
 cliResetCaching = 0
+
+
+# cat=ajax mode; type=boolean; label=Enable AJAX mode configuration:Check to enabled the following configurations.
+ajaxConfigEnable = 0
+
+# cat=ajax mode; type=boolean; label=Include configuration file:Check to enable the inclusion of the configuration file.
+ajaxIncludeEnable = 0
+
+# cat=ajax mode; type=string; label=Configuration file:Define the configuration file relative to PATH_site to include.
+ajaxIncludeFileName = ../private/AjaxSettings.php
+
+
+# cat=install mode; type=boolean; label=Enable INSTALL mode configuration:Check to enabled the following configurations.
+installConfigEnable = 0
+
+# cat=install mode; type=boolean; label=Include configuration file:Check to enable the inclusion of the configuration file.
+installIncludeEnable = 0
+
+# cat=install mode; type=string; label=Configuration file:Define the configuration file relative to PATH_site to include.
+installIncludeFileName = ../private/InstallSettings.php

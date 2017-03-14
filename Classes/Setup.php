@@ -36,13 +36,41 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 class Setup
 {
 	/**
+	 * @var string Extension key to listen on signals
+	 */
+	private $extensionKey = '';
+
+    /**
+     * @var \TYPO3\CMS\Core\Configuration\ConfigurationManager
+     */
+    protected $configurationManager = null;
+
+	/**
+	 * Initializes the setup class.
+	 *
+	 * @param string $extensionKey Extension key to listen on signals
+	 */
+	public function __construct($extensionKey)
+	{
+		$this->$extensionKey = $extensionKey;
+	}
+
+    /**
+     * @param \TYPO3\CMS\Core\Configuration\ConfigurationManager $configurationManager
+     */
+    public function injectConfigurationManager(\TYPO3\CMS\Core\Configuration\ConfigurationManager $configurationManager)
+    {
+        $this->configurationManager = $configurationManager;
+    }
+
+	/**
 	 * Executes the setup tasks if extension is installed.
 	 *
 	 * @param string $extensionKey Installed extension name
 	 */
 	public function afterInstall($extensionKey)
 	{
-		if ($extensionKey !== 'gsprotectedconfig') {
+		if ($extensionKey !== $this->$extensionKey) {
 			return;
 		}
 
@@ -56,7 +84,7 @@ class Setup
 	 */
 	public function afterUninstall($extensionKey)
 	{
-		if ($extensionKey !== 'gsprotectedconfig') {
+		if ($extensionKey !== $this->$extensionKey) {
 			return;
 		}
 
@@ -78,6 +106,32 @@ class Setup
 	}
 
 	/**
+	 * Reads $content to the file $file
+	 *
+	 * @param string $file Filepath to write to
+	 * @param string $content Content to write
+	 * @param bool $changePermissions If TRUE, permissions are forced to be set
+	 * @return bool TRUE if the file was successfully opened and written to.
+	 */
+	protected function readFile($file, &$content)
+	{
+		if (!@is_file($file)) {
+			return false;
+		}
+
+		if ($fd = fopen($file, 'rb')) {
+			$content = fread($fd, filesize($file));
+			fclose($fd);
+			if ($content === false) {
+				return false;
+			}
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Returns the lines from AdditionalConfiguration.php file without own additions
 	 */
 	protected function getCleanAdditionalConfiguration($extensionKey)
@@ -85,7 +139,7 @@ class Setup
 		$newLines = [];
 
 		// Load content and search for the include
-		if (Utility::readFile($this->getConfigurationManager()->getAdditionalConfigurationFileLocation(), $content) === true)
+		if ($this->readFile($this->getConfigurationManager()->getAdditionalConfigurationFileLocation(), $content) === true)
 		{
 			$currentLines = explode(LF, $content);
 
@@ -132,10 +186,9 @@ class Setup
 	{
 		$newLines = $this->getCleanAdditionalConfiguration($extensionKey);
 
-		$newLines[] = '// Include AdditionalConfiguration.php from extension ' . $extensionKey . ' - added on ' . date(DATE_ATOM) . ' by setup';
-		$newLines[] = '$_EXTKEY = \'' . $extensionKey . '\';';
-		$newLines[] = 'if (@is_file(PATH_typo3conf . \'ext/\' . $_EXTKEY . \'/Configuration/AdditionalConfiguration.php\')) {';
-		$newLines[] = '	require PATH_typo3conf . \'ext/\' . $_EXTKEY . \'/Configuration/AdditionalConfiguration.php\';';
+		$newLines[] = '// Run  extension ' . $extensionKey . ' - added on ' . date(DATE_ATOM) . ' by setup';
+		$newLines[] = 'if (class_exists(\'Gilbertsoft\ProtectedConfig\Configuration\Modifier\')) {';
+		$newLines[] = '	\Gilbertsoft\ProtectedConfig\Configuration\Modifier::processLocalConfiguration(\'' . $extensionKey . '\');';
 		$newLines[] = '}';
 
 		$this->getConfigurationManager()->writeAdditionalConfiguration($newLines);
