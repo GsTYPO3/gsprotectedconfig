@@ -5,7 +5,7 @@
 GS Proteced Config TYPO3 extension
 ==================================
 
-GS Protected Config allows you to import configurations from outside the web directory or override it dependent from the application context or TYPO3 mode (FE, BE, CLI, AJAX and INSTALL). Configuration could simply be adapted by the Extension Manager and must be activated first!
+GS Protected Config allows you to import configurations from outside the web directory or override it dependent from the application context or TYPO3 mode (FE, BE, CLI, AJAX and INSTALL). You can use this extension to move the website from dev to testing to production without changing something inside the web root if you place your settings outside. Templates can be found in Resources/Private/Templates. Configuration can simply be adapted by the Extension Manager and must be activated first!
 
 
 ## Screen shots
