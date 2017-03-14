@@ -21,7 +21,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace Gilbertsoft\ProtectedConfig;
+namespace Gilbertsoft\ProtectedConfig\Service;
 
 
 use Gilbertsoft\ProtectedConfig\Utility;
@@ -31,28 +31,34 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 
 /**
- * GS Proteced Config setup class.
+ * GS Proteced Config Install Service class.
  */
-class Setup
+class InstallService
 {
 	/**
 	 * @var string Extension key to listen on signals
 	 */
-	protected $extensionKey = '';
+	protected $extensionKey = 'gsprotectedconfig';
 
     /**
      * @var \TYPO3\CMS\Core\Configuration\ConfigurationManager
      */
     protected $configurationManager = null;
 
+    /**
+     * @var string
+     */
+    protected $messageQueueByIdentifier = '';
+
 	/**
-	 * Initializes the setup class.
+	 * Initializes the install service
 	 *
 	 * @param string $extensionKey Extension key to listen on signals
 	 */
 	public function __construct($extensionKey)
 	{
-		$this->$extensionKey = $extensionKey;
+		$this->extensionKey = $extensionKey;
+        $this->messageQueueByIdentifier = 'extbase.flashmessages.tx_extensionmanager_tools_extensionmanagerextensionmanager';
 	}
 
 	/**
@@ -62,11 +68,10 @@ class Setup
 	 */
 	public function afterInstall($extensionKey)
 	{
-		if ($extensionKey !== $this->$extensionKey) {
-			return;
+        if ($extensionKey == $this->extensionKey)
+        {
+			$this->updateAdditionalConfiguration($extensionKey);
 		}
-
-		$this->updateAdditionalConfiguration($extensionKey);
 	}
 
 	/**
@@ -76,11 +81,10 @@ class Setup
 	 */
 	public function afterUninstall($extensionKey)
 	{
-		if ($extensionKey !== $this->$extensionKey) {
-			return;
+        if ($extensionKey == $this->extensionKey)
+        {
+			$this->removeAdditionalConfiguration($extensionKey);
 		}
-
-		$this->removeAdditionalConfiguration($extensionKey);
 	}
 
 	/**
@@ -184,6 +188,20 @@ class Setup
 		$newLines[] = '}';
 
 		$this->getConfigurationManager()->writeAdditionalConfiguration($newLines);
+
+        /**
+         * Add Flashmessage that the configuration has written
+         */
+        $flashMessage = GeneralUtility::makeInstance(
+            'TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+            'Configuration in ' .
+            $this->getConfigurationManager()->getAdditionalConfigurationFileLocation() .
+            ' successfully added and saved.',
+            'Configuration saved',
+            FlashMessage::OK,
+            true
+        );
+        $this->addFlashMessage($flashMessage);
 	}
 
 	/**
@@ -194,5 +212,35 @@ class Setup
 		$newLines = $this->getCleanAdditionalConfiguration($extensionKey);
 
 		$this->getConfigurationManager()->writeAdditionalConfiguration($newLines);
+
+        /**
+         * Add Flashmessage that the configuration has written
+         */
+        $flashMessage = GeneralUtility::makeInstance(
+            'TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+            'Changes in ' .
+            $this->getConfigurationManager()->getAdditionalConfigurationFileLocation() .
+            ' successfully deleted and saved.',
+            'Configuration saved',
+            FlashMessage::OK,
+            true
+        );
+        $this->addFlashMessage($flashMessage);
 	}
+
+    /**
+     * Adds a Flash Message to the Flash Message Queue
+     *
+     * @param FlashMessage $flashMessage
+     */
+    protected function addFlashMessage(FlashMessage $flashMessage)
+    {
+        if ($flashMessage) {
+            /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+            $flashMessageService = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessageService');
+            /** @var $flashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
+            $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier($this->messageQueueByIdentifier);
+            $flashMessageQueue->enqueue($flashMessage);
+        }
+    }
 }
