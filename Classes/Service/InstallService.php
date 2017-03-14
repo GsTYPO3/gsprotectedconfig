@@ -198,7 +198,7 @@ class InstallService
             'Configuration successfully added to ' .
             $this->getConfigurationManager()->getAdditionalConfigurationFileLocation() .
             '.',
-            'Configuration saved',
+            'Configuration added',
             FlashMessage::OK,
             true
         );
@@ -222,7 +222,7 @@ class InstallService
             'Configuration successfully removed from ' .
             $this->getConfigurationManager()->getAdditionalConfigurationFileLocation() .
             '.',
-            'Configuration saved',
+            'Configuration removed',
             FlashMessage::OK,
             true
         );
