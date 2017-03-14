@@ -181,6 +181,21 @@ class InstallService
 	 */
 	protected function updateAdditionalConfiguration($extensionKey)
 	{
+        /**
+         * Add Flashmessage that the configuration has to be checked
+         */
+        $flashMessage = GeneralUtility::makeInstance(
+            'TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+            'To enable the features you have to edit the extensions configuration in the Extension Manager. After the new configuration is saved please relogin to the backend to ensure the changes!',
+            'Check your configuration',
+            FlashMessage::NOTICE,
+            true
+        );
+        $this->addFlashMessage($flashMessage);
+
+        /**
+         * Update configuration
+         */
 		$newLines = $this->getCleanAdditionalConfiguration($extensionKey);
 
 		$newLines[] = '// Run configuration modifier for extension ' . $extensionKey . ' - added on ' . date(DATE_ATOM) . ' by ' . __CLASS__;
