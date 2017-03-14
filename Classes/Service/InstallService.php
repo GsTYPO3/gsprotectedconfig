@@ -103,32 +103,6 @@ class InstallService
 	}
 
 	/**
-	 * Reads $content to the file $file
-	 *
-	 * @param string $file Filepath to write to
-	 * @param string $content Content to write
-	 * @param bool $changePermissions If TRUE, permissions are forced to be set
-	 * @return bool TRUE if the file was successfully opened and written to.
-	 */
-	protected function readFile($file, &$content)
-	{
-		if (!@is_file($file)) {
-			return false;
-		}
-
-		if ($fd = fopen($file, 'rb')) {
-			$content = fread($fd, filesize($file));
-			fclose($fd);
-			if ($content === false) {
-				return false;
-			}
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Returns the lines from AdditionalConfiguration.php file without own additions
 	 */
 	protected function getCleanAdditionalConfiguration($extensionKey)
@@ -136,7 +110,7 @@ class InstallService
 		$newLines = [];
 
 		// Load content and search for the include
-		if ($this->readFile($this->getConfigurationManager()->getAdditionalConfigurationFileLocation(), $content) === true)
+		if (($content = GeneralUtility::getUrl($this->getConfigurationManager()->getAdditionalConfigurationFileLocation())) !== false)
 		{
 			$currentLines = explode(LF, $content);
 
@@ -198,6 +172,10 @@ class InstallService
          */
 		$newLines = $this->getCleanAdditionalConfiguration($extensionKey);
 
+		if (!empty(end($newLines))) {
+			$newLines[] = '';
+		}
+
 		$newLines[] = '// Run configuration modifier for extension ' . $extensionKey . ' - added on ' . date(DATE_ATOM) . ' by ' . __CLASS__;
 		$newLines[] = 'if (class_exists(\'Gilbertsoft\ProtectedConfig\Configuration\Modifier\')) {';
 		$newLines[] = '	\Gilbertsoft\ProtectedConfig\Configuration\Modifier::processLocalConfiguration(\'' . $extensionKey . '\');';
@@ -227,21 +205,42 @@ class InstallService
 	{
 		$newLines = $this->getCleanAdditionalConfiguration($extensionKey);
 
-		$this->getConfigurationManager()->writeAdditionalConfiguration($newLines);
+		if (empty($newLines) !== true)
+		{
+			$this->getConfigurationManager()->writeAdditionalConfiguration($newLines);
 
-        /**
-         * Add Flashmessage that the configuration has written
-         */
-        $flashMessage = GeneralUtility::makeInstance(
-            'TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
-            'Configuration successfully removed from ' .
-            $this->getConfigurationManager()->getAdditionalConfigurationFileLocation() .
-            '.',
-            'Configuration removed',
-            FlashMessage::OK,
-            true
-        );
-        $this->addFlashMessage($flashMessage);
+			/**
+			 * Add Flashmessage that the configuration has written
+			 */
+			$flashMessage = GeneralUtility::makeInstance(
+				'TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+				'Configuration successfully removed from ' .
+				$this->getConfigurationManager()->getAdditionalConfigurationFileLocation() .
+				'.',
+				'Configuration removed',
+				FlashMessage::OK,
+				true
+			);
+			$this->addFlashMessage($flashMessage);
+		}
+		else
+		{
+			unlink($this->getConfigurationManager()->getAdditionalConfigurationFileLocation());
+
+			/**
+			 * Add Flashmessage that the configuration has deleted
+			 */
+			$flashMessage = GeneralUtility::makeInstance(
+				'TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+				'File ' .
+				$this->getConfigurationManager()->getAdditionalConfigurationFileLocation() .
+				' successfully deleted.',
+				'Configuration delete',
+				FlashMessage::OK,
+				true
+			);
+			$this->addFlashMessage($flashMessage);
+		}
 	}
 
     /**
