@@ -195,9 +195,9 @@ class InstallService
          */
         $flashMessage = GeneralUtility::makeInstance(
             'TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
-            'Configuration in ' .
+            'Configuration successfully added to ' .
             $this->getConfigurationManager()->getAdditionalConfigurationFileLocation() .
-            ' successfully added and saved.',
+            '.',
             'Configuration saved',
             FlashMessage::OK,
             true
@@ -219,9 +219,9 @@ class InstallService
          */
         $flashMessage = GeneralUtility::makeInstance(
             'TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
-            'Changes in ' .
+            'Configuration successfully removed from ' .
             $this->getConfigurationManager()->getAdditionalConfigurationFileLocation() .
-            ' successfully deleted and saved.',
+            '.',
             'Configuration saved',
             FlashMessage::OK,
             true
