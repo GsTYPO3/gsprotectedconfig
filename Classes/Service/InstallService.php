@@ -183,7 +183,7 @@ class InstallService
 	{
 		$newLines = $this->getCleanAdditionalConfiguration($extensionKey);
 
-		$newLines[] = '// Run  extension ' . $extensionKey . ' - added on ' . date(DATE_ATOM) . ' by setup';
+		$newLines[] = '// Run configuration modifier for extension ' . $extensionKey . ' - added on ' . date(DATE_ATOM) . ' by ' . __CLASS__;
 		$newLines[] = 'if (class_exists(\'Gilbertsoft\ProtectedConfig\Configuration\Modifier\')) {';
 		$newLines[] = '	\Gilbertsoft\ProtectedConfig\Configuration\Modifier::processLocalConfiguration(\'' . $extensionKey . '\');';
 		$newLines[] = '}';
