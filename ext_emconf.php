@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => 'GS Protected Config',
-    'description' => 'GS Protected Config allows you to import configurations from outside the web directory or override it dependent from application context or CLI mode. Configuration could simply be adapted by the Extension Manager.',
+    'description' => 'GS Protected Config allows you to import configurations from outside the web directory or override it dependent from the application context or TYPO3 mode (FE, BE, CLI, AJAX and INSTALL). Configuration could simply be adapted by the Extension Manager and must be activated first!',
     'category' => 'misc',
     'author' => 'Simon Gilli',
     'author_email' => 'typo3@gilbertsoft.org',
