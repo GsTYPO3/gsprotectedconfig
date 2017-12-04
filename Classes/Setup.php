@@ -1,7 +1,8 @@
 <?php
+namespace Gilbertsoft\ProtectedConfig;
 
 /*
- * This file is part of the GS Proteced Config TYPO3 Extension.
+ * This file is part of the "GS Protected Config" Extension for TYPO3 CMS.
  *
  * Copyright (C) 2017 by Gilbertsoft (gilbertsoft.org)
  *
@@ -21,11 +22,9 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace Gilbertsoft\ProtectedConfig;
-
-
 /**
- * GS Proteced Config Setup dummy class.
+ * GS Proteced Config Setup dummy class. For compatibility only, will be 
+ * deleted in next future.
  */
 class Setup
 {
