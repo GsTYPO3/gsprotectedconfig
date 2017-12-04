@@ -1,4 +1,4 @@
-# cat=local; type=boolean; label=Enable local configuration:Check to enabled the following configurations.
+# cat=local; type=boolean; label=Enable local configuration:Check to enable the following configurations.
 localConfigEnable = 0
 
 # cat=local; type=boolean; label=Include configuration file:Check to enable the inclusion of the configuration file.
@@ -8,7 +8,17 @@ localIncludeEnable = 0
 localIncludeFileName = ../private/Settings.php
 
 
-# cat=application context; type=boolean; label=Enable application context configuration:Check to enabled the following configurations.
+# cat=caching; type=boolean; label=Enable caching configuration:Check to enable the following configurations.
+cachingConfigEnable = 0
+
+# cat=caching; type=boolean; label=Enable caching optimization:Check to enable the caching optimization and set the caching backends to APCu or APC and File as fallbacks.
+cachingOptimizationEnable = 1
+
+# cat=caching; type=boolean; label=Fallback of ExtbaseObject in CLI mode:Check to enable the fallback to File of ExtbaseObject cache in CLI mode.
+cachingCliFallbackExtbaseObject = 1
+
+
+# cat=application context; type=boolean; label=Enable application context configuration:Check to enable the following configurations.
 contextConfigEnable = 0
 
 # cat=application context; type=boolean; label=Include application context dependent configuration:Check to enable the inclusion of the application context configuration file (e.g. Testing.php or Production_StagingSystem.php)
@@ -20,11 +30,11 @@ contextIncludePath = ../private/
 # cat=application context; type=options[Never=0,Development=1,Testing=2,Development/Testing=3,Production=4,Development/Production=5,Testing/Production=6,Always=7]; label=Extend Site Name:Select the mode to extend the site name based on the application context.
 contextExtendSiteName = 0
 
-# cat=application context; type=options[Never=0,Development=1,Testing=2,Development/Testing=3,Production=4,Development/Production=5,Testing/Production=6,Always=1]; label=Extend Database:Select the mode to extend the database based on the application context.
+# cat=application context; type=options[Never=0,Development=1,Testing=2,Development/Testing=3,Production=4,Development/Production=5,Testing/Production=6,Always=7]; label=Extend Database:Select the mode to extend the database based on the application context.
 contextExtendDatabase = 0
 
 
-# cat=fe mode; type=boolean; label=Enable FE mode configuration:Check to enabled the following configurations.
+# cat=fe mode; type=boolean; label=Enable FE mode configuration:Check to enable the following configurations.
 feConfigEnable = 0
 
 # cat=fe mode; type=boolean; label=Include configuration file:Check to enable the inclusion of the configuration file.
@@ -34,7 +44,7 @@ feIncludeEnable = 0
 feIncludeFileName = ../private/FeSettings.php
 
 
-# cat=be mode; type=boolean; label=Enable BE mode configuration:Check to enabled the following configurations.
+# cat=be mode; type=boolean; label=Enable BE mode configuration:Check to enable the following configurations.
 beConfigEnable = 0
 
 # cat=be mode; type=boolean; label=Include configuration file:Check to enable the inclusion of the configuration file.
@@ -44,7 +54,7 @@ beIncludeEnable = 0
 beIncludeFileName = ../private/BeSettings.php
 
 
-# cat=cli mode; type=boolean; label=Enable CLI mode configuration:Check to enabled the following configurations.
+# cat=cli mode; type=boolean; label=Enable CLI mode configuration:Check to enable the following configurations.
 cliConfigEnable = 0
 
 # cat=cli mode; type=boolean; label=Include configuration file:Check to enable the inclusion of the configuration file.
@@ -57,7 +67,7 @@ cliIncludeFileName = ../private/CliSettings.php
 cliResetCaching = 0
 
 
-# cat=ajax mode; type=boolean; label=Enable AJAX mode configuration:Check to enabled the following configurations.
+# cat=ajax mode; type=boolean; label=Enable AJAX mode configuration:Check to enable the following configurations.
 ajaxConfigEnable = 0
 
 # cat=ajax mode; type=boolean; label=Include configuration file:Check to enable the inclusion of the configuration file.
@@ -67,7 +77,7 @@ ajaxIncludeEnable = 0
 ajaxIncludeFileName = ../private/AjaxSettings.php
 
 
-# cat=install mode; type=boolean; label=Enable INSTALL mode configuration:Check to enabled the following configurations.
+# cat=install mode; type=boolean; label=Enable INSTALL mode configuration:Check to enable the following configurations.
 installConfigEnable = 0
 
 # cat=install mode; type=boolean; label=Include configuration file:Check to enable the inclusion of the configuration file.
