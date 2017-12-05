@@ -8,16 +8,6 @@ localIncludeEnable = 0
 localIncludeFileName = ../private/Settings.php
 
 
-# cat=caching; type=boolean; label=Enable caching configuration:Check to enable the following configurations.
-cachingConfigEnable = 0
-
-# cat=caching; type=boolean; label=Enable caching optimization:Check to enable the caching optimization and set the caching backends to APCu or APC and File as fallbacks.
-cachingOptimizationEnable = 1
-
-# cat=caching; type=boolean; label=Fallback of ExtbaseObject in CLI mode:Check to enable the fallback to File of ExtbaseObject cache in CLI mode.
-cachingCliFallbackExtbaseObject = 1
-
-
 # cat=application context; type=boolean; label=Enable application context configuration:Check to enable the following configurations.
 contextConfigEnable = 0
 
@@ -63,7 +53,7 @@ cliIncludeEnable = 0
 # cat=cli mode; type=string; label=Configuration file:Define the configuration file relative to PATH_site to include.
 cliIncludeFileName = ../private/CliSettings.php
 
-# cat=cli mode; type=boolean; label=Reset CLI caching:Check to reset CLI caching to "database cache backend".
+# cat=cli mode; type=boolean; label=Reset CLI caching:Deprecated, use extension gscacheconfig instead.
 cliResetCaching = 0
 
 

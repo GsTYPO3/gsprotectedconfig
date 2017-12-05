@@ -67,10 +67,6 @@ class Configurator extends AbstractConfigurator
         self::sanitizeValue($conf, 'localIncludeEnable', false);
         self::sanitizeValue($conf, 'localIncludeFileName', '');
 
-        self::sanitizeValue($conf, 'cachingConfigEnable', false);
-        self::sanitizeValue($conf, 'cachingOptimizationEnable', true);
-        self::sanitizeValue($conf, 'cachingCliFallbackExtbaseObject', true);
-
         self::sanitizeValue($conf, 'contextConfigEnable', false);
         self::sanitizeValue($conf, 'contextIncludeEnable', false);
         self::sanitizeValue($conf, 'contextIncludePath', '');
@@ -121,17 +117,6 @@ class Configurator extends AbstractConfigurator
     }
 
     /**
-     * @param string $backendClassName Backend class name
-     * @param string $cacheName Cache name
-     * @return void
-     */
-    protected static function setCacheBackend($backendClassName, $cacheName)
-    {
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheName]['backend'] = $backendClassName;
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheName]['options'] = [];
-    }
-
-    /**
      * @param array $extConf Extension configuration array
      * @return void
      */
@@ -139,44 +124,6 @@ class Configurator extends AbstractConfigurator
     {
         // Include configuration file
         self::includeConfiguration($extConf['localIncludeEnable'], $extConf['localIncludeFileName']);
-    }
-
-    /**
-     * @param array $extConf Extension configuration array
-     * @return void
-     */
-    protected static function handleCachingConfiguration($extConf)
-    {
-        // Override cache configuration
-        $context = GeneralUtility::getApplicationContext();
-
-        $apcExtensionLoaded = extension_loaded('apc');
-        $apcuExtensionLoaded = extension_loaded('apcu');
-        $apcAvailable = $apcExtensionLoaded || $apcuExtensionLoaded;
-        $apcEnabled = ini_get('apc.enabled') == true;
-
-        if (!$context->isDevelopment() && $apcAvailable && $apcEnabled) {
-            $backendClassName = $apcuExtensionLoaded ? BACKEND_APCU : BACKEND_APC;
-        } else {
-            $backendClassName = BACKEND_FILE;
-        }
-
-        self::setCacheBackend($backendClassName, 'cache_hash');
-        self::setCacheBackend($backendClassName, 'cache_imagesizes');
-        self::setCacheBackend($backendClassName, 'cache_pages');
-        self::setCacheBackend($backendClassName, 'cache_pagesection');
-        self::setCacheBackend($backendClassName, 'cache_rootline');
-        self::setCacheBackend($backendClassName, 'extbase_datamapfactory_datamap');
-
-        if (self::isCli() && ($extConf['cachingCliFallbackExtbaseObject'] == 1)) {}
-            self::setCacheBackend(BACKEND_FILE, 'extbase_object');
-        } else {
-            self::setCacheBackend($backendClassName, 'extbase_object');
-        }
-
-        self::setCacheBackend($backendClassName, 'extbase_reflection');
-        //self::setCacheBackend($backendClassName, 'extbase_typo3dbbackend_queries');
-        //self::setCacheBackend($backendClassName, 'extbase_typo3dbbackend_tablecolumns');
     }
 
     /**
@@ -289,10 +236,6 @@ class Configurator extends AbstractConfigurator
 
         if ($extConf['localConfigEnable'] == 1) {
             self::handleLocalConfiguration($extConf);
-        }
-
-        if ($extConf['cachingConfigEnable'] == 1) {
-            self::handleCachingConfiguration($extConf);
         }
 
         if ($extConf['contextConfigEnable'] == 1) {
