@@ -24,7 +24,7 @@
 $EM_CONF[$_EXTKEY] = [
     'title' => 'GS Protected Config',
     'description' => 'GS Protected Config allows you to import configurations from outside the web directory or override it dependent from the application context or TYPO3 mode (FE, BE, CLI, AJAX and INSTALL). You can use this extension to move the website from dev to testing to production without changing something inside the web root if you place your settings outside. Templates can be found in Resources/Private/Templates. Configuration can simply be adapted by the Extension Manager and must be activated first!',
-    'version' => '3.0.0',
+    'version' => '3.0.1',
     'category' => 'misc',
     'constraints' => [
         'depends' => [
@@ -35,7 +35,7 @@ $EM_CONF[$_EXTKEY] = [
         'conflicts' => [],
         'suggests' => [],
     ],
-    'state' => 'alpha',
+    'state' => 'beta',
     'uploadfolder' => 0,
     'createDirs' => '',
     'clearCacheOnLoad' => 0,
