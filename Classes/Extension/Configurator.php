@@ -39,11 +39,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Configurator extends AbstractConfigurator
 {
-    private const BACKEND_DATABASE = \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class;
-    private const BACKEND_FILE = \TYPO3\CMS\Core\Cache\Backend\FileBackend::class;
-    private const BACKEND_APC = \TYPO3\CMS\Core\Cache\Backend\ApcBackend::class;
-    private const BACKEND_APCU = \TYPO3\CMS\Core\Cache\Backend\ApcuBackend::class;
-
     /**
      * @param string $string String to be converted to lowercase underscore
      * @return string lowercase_and_underscored_string
