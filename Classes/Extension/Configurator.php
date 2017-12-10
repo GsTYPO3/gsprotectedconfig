@@ -237,23 +237,23 @@ class Configurator extends AbstractConfigurator
             self::handleContextConfiguration($extConf);
         }
 
-        if (($extConf['feConfigEnable'] == 1) && isFrontend()) {
+        if (($extConf['feConfigEnable'] == 1) && self::isFrontend()) {
             self::handleFeConfiguration($extConf);
         }
 
-        if (($extConf['beConfigEnable'] == 1) && isBackend()) {
+        if (($extConf['beConfigEnable'] == 1) && self::isBackend()) {
             self::handleBeConfiguration($extConf);
         }
 
-        if (($extConf['cliConfigEnable'] == 1) && isCli()) {
+        if (($extConf['cliConfigEnable'] == 1) && self::isCli()) {
             self::handleCliConfiguration($extConf);
         }
 
-        if (($extConf['ajaxConfigEnable'] == 1) && isAjax()) {
+        if (($extConf['ajaxConfigEnable'] == 1) && self::isAjax()) {
             self::handleAjaxConfiguration($extConf);
         }
 
-        if (($extConf['installConfigEnable'] == 1) && isInstall()) {
+        if (($extConf['installConfigEnable'] == 1) && self::isInstall()) {
             self::handleInstallConfiguration($extConf);
         }
     }
