@@ -103,9 +103,7 @@ class Configurator extends AbstractConfigurator
     protected static function includeConfiguration($enable, $fileName)
     {
         // Include configuration file
-        if ($enable == 1)
-        {
-            $includeFile = PATH_site . $fileName;
+        if ($enable == 1) {
             $includeFile = Environment::getPublicPath() . '/' . $fileName;
 
             if (@is_file($includeFile)) {
@@ -136,8 +134,7 @@ class Configurator extends AbstractConfigurator
         // Update site name
         if ((($extConf['contextExtendSiteName'] & 1) && $context->isDevelopment()) ||
             (($extConf['contextExtendSiteName'] & 2) && $context->isTesting()) ||
-            (($extConf['contextExtendSiteName'] & 4) && $context->isProduction()))
-        {
+            (($extConf['contextExtendSiteName'] & 4) && $context->isProduction())) {
             // Update site name based on context
             $GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'] .= ' (' . (string)$context . ')';
         }
@@ -145,8 +142,7 @@ class Configurator extends AbstractConfigurator
         // Update database
         if ((($extConf['contextExtendDatabase'] & 1) && $context->isDevelopment()) ||
             (($extConf['contextExtendDatabase'] & 2) && $context->isTesting()) ||
-            (($extConf['contextExtendDatabase'] & 4) && $context->isProduction()))
-        {
+            (($extConf['contextExtendDatabase'] & 4) && $context->isProduction())) {
             // Update database based on context
             $GLOBALS['TYPO3_CONF_VARS']['DB']['database'] .= '_' . GeneralUtility::camelCaseToLowerCaseUnderscored((string)$context);
         }
