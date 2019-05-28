@@ -27,6 +27,7 @@ namespace Gilbertsoft\ProtectedConfig\Extension;
  */
 use Gilbertsoft\Lib\Extension\AbstractConfigurator;
 use Gilbertsoft\ProtectedConfig\Service\InstallService;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -56,7 +57,7 @@ class Configurator extends AbstractConfigurator
      */
     protected static function getSanitizedExtConf($extensionKey)
     {
-        $conf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extensionKey]);
+        $conf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get($extensionKey);
 
         self::sanitizeValue($conf, 'localConfigEnable', false);
         self::sanitizeValue($conf, 'localIncludeEnable', false);
