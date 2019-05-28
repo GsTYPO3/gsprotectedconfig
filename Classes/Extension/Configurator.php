@@ -28,6 +28,7 @@ namespace Gilbertsoft\ProtectedConfig\Extension;
 use Gilbertsoft\Lib\Extension\AbstractConfigurator;
 use Gilbertsoft\ProtectedConfig\Service\InstallService;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -105,6 +106,7 @@ class Configurator extends AbstractConfigurator
         if ($enable == 1)
         {
             $includeFile = PATH_site . $fileName;
+            $includeFile = Environment::getPublicPath() . '/' . $fileName;
 
             if (@is_file($includeFile)) {
                 require $includeFile;
