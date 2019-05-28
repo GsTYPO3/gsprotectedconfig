@@ -3,7 +3,7 @@
 /*
  * This file is part of the "GS Protected Config" Extension for TYPO3 CMS.
  *
- * Copyright (C) 2017 by Gilbertsoft (gilbertsoft.org)
+ * Copyright (C) 2017-2019 by Gilbertsoft (gilbertsoft.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,13 +24,13 @@
 $EM_CONF[$_EXTKEY] = [
     'title' => 'GS Protected Config',
     'description' => 'GS Protected Config allows you to import configurations from outside the web directory or override it dependent from the application context or TYPO3 mode (FE, BE, CLI, AJAX and INSTALL). You can use this extension to move the website from dev to testing to production without changing something inside the web root if you place your settings outside. Templates can be found in Resources/Private/Templates. Configuration can simply be adapted by the Extension Manager and must be activated first!',
-    'version' => '3.0.2',
+    'version' => '4.0.0',
     'category' => 'misc',
     'constraints' => [
         'depends' => [
-            'php' => '5.6.0-0.0.0',
-            'typo3' => '6.2.0-8.9.99',
-            'gslib' => '0.0.5-0.0.0',
+            'php' => '7.1.99-7.2.99',
+            'typo3' => '8.7.0-9.5.99',
+            'gslib' => '0.0.9-0.0.0',
         ],
         'conflicts' => [],
         'suggests' => [],
