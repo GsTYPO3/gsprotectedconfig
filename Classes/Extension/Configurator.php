@@ -27,7 +27,6 @@ namespace Gilbertsoft\ProtectedConfig\Extension;
  */
 use Gilbertsoft\Lib\Extension\AbstractConfigurator;
 use Gilbertsoft\ProtectedConfig\Service\InstallService;
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -58,7 +57,7 @@ class Configurator extends AbstractConfigurator
     protected static function getSanitizedExtConf($extensionKey)
     {
         if (class_exists('TYPO3\CMS\Core\Configuration\ExtensionConfiguration')) {
-            $conf = GeneralUtility::makeInstance(TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get($extensionKey);
+            $conf = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get($extensionKey);
         } else {
             $conf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extensionKey]);
         }
@@ -107,7 +106,11 @@ class Configurator extends AbstractConfigurator
     {
         // Include configuration file
         if ($enable == 1) {
-            $includeFile = Environment::getPublicPath() . '/' . $fileName;
+            if (class_exists('TYPO3\CMS\Core\Core\Environment')) {
+                $includeFile = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $fileName;
+            } else {
+                $includeFile = PATH_site . $fileName;
+            }
 
             if (@is_file($includeFile)) {
                 require $includeFile;
